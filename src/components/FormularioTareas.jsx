@@ -1,10 +1,10 @@
 import { Button, Form } from "react-bootstrap";
 import Listatareas from "./Listatareas";
-import { useState } from "react";
+import { useEffect,useState  } from "react";
 
 const FormularioTareas = () => {
   const [nombreTarea, setNombreTarea] = useState("");
- const [tareas, setTareas] = useState([])
+ const [tareas, setTareas] = useState( JSON.parse(localStorage.getItem('ListaTareaKey')) || [] );
 
 const handleSubmit = (e)=>{
   e.preventDefault();
@@ -13,6 +13,13 @@ setTareas([...tareas, nombreTarea]); //operador spread
 //limpiar el input
 setNombreTarea('');
 }
+
+// aqui agrego el codigo del ciclo de vida
+useEffect(()=>{
+  //Aqui agregar el codigo que quiero ejecutar en el montaje y act. del componente
+  console.log('estoy dentro del usuEffect');
+  localStorage.setItem('ListaTareaKey', JSON.stringify(tareas))
+},[tareas])
 
 const borrarTarea = (nombre)=>{
   const tareasActualizadas = tareas.filter((itemTarea)=> itemTarea !== nombre )
